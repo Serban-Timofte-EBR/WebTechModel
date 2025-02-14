@@ -68,6 +68,12 @@ const getOneOwnedProject = async (req, res, next) => {
 
 const createOwnedProject = async (req, res, next) => {
   try {
+    // req.body =
+    //  {
+    //  "name" : "Project 1",
+    //  "description" : "This is project 1"
+    //  }
+
     const project = await models.Project.create({
       ...req.body,
       userId: req.params.uid,

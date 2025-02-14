@@ -8,22 +8,23 @@
  * @property {string} email - The email address of the user. This field is required.
  * @property {string} passwordHash - The hashed password of the user. This field is required.
  */
+
 export default (sequelize, DataTypes) => {
-  return sequelize.define('user', {
+  return sequelize.define("user", {
     email: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     passwordHash: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     token: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     type: {
-      type: DataTypes.ENUM('admin', 'regular'),
-      allowNull: false
-    }
-  })
-}
+      type: DataTypes.ENUM("admin", "regular"),
+      allowNull: false,
+    },
+  });
+};

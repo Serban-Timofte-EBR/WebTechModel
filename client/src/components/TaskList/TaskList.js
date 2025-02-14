@@ -34,7 +34,15 @@ const TaskList = () => {
     globalState.task.emitter.addListener("GET_TASKS_SUCCESS", () => {
       setTasks(globalState.task.data);
     });
-  }, [pageNumber, pageSize, filterField, filterValue, sortField, sortOrder]);
+  }, [
+    pageNumber,
+    pageSize,
+    filterField,
+    filterValue,
+    sortField,
+    sortOrder,
+    params.pid,
+  ]);
 
   return (
     <div className="task-list">
