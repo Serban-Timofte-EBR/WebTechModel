@@ -3,6 +3,7 @@ import project from "./project-controller.mjs";
 import task from "./task-controller.mjs";
 import user from "./user-controller.mjs";
 import comment from "./comment-controller.mjs";
+import admin from "./admin-controller.mjs";
 
 export default {
   auth,
@@ -10,4 +11,5 @@ export default {
   task,
   user,
   comment,
+  admin,
 };

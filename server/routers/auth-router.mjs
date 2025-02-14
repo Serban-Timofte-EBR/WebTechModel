@@ -1,8 +1,6 @@
 import express from "express";
 import controllers from "./controllers/index.mjs";
 
-// POST
-// localhost:8080/auth/login
 const authRouter = express.Router();
 
 authRouter.post("/login", controllers.auth.login);

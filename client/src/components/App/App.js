@@ -11,6 +11,7 @@ import TaskList from "../TaskList";
 import TaskForm from "../TaskForm";
 import TaskDetails from "../TaskDetails";
 import Dashboard from "../Dashboard";
+import RoleGuard from "../RoleGuard";
 
 import UserStore from "../../state/stores/UserStore";
 import ProjectStore from "../../state/stores/ProjectStore";
@@ -18,6 +19,8 @@ import TaskStore from "../../state/stores/TaskStore";
 import UserSuggestionStore from "../../state/stores/UserSuggestionStore";
 import ErrorDisplay from "../ErrorDisplay";
 import RegisterForm from "../RegisterForm";
+import UserList from "../UserList";
+import UserForm from "../UserForm";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -25,10 +28,11 @@ const App = () => {
   const [projectStore] = useState(new ProjectStore());
   const [taskStore] = useState(new TaskStore());
   const [userSuggestionStore] = useState(new UserSuggestionStore());
-
+  const [role, setRole] = useState("");
   useEffect(() => {
     userStore.emitter.addListener("LOGIN_SUCCESS", () => {
       setIsAuthenticated(true);
+      setRole(userStore.data.type);
     });
   }, []);
 
@@ -71,6 +75,29 @@ const App = () => {
               </AuthGuard>
             }
           />
+
+          {/* User list */}
+          <Route
+            path="/dashboard/users"
+            element={
+              <AuthGuard isAuthenticated={isAuthenticated}>
+                <RoleGuard currentRole={role} role="admin">
+                  <UserList />
+                </RoleGuard>
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/dashboard/users/new"
+            element={
+              <AuthGuard isAuthenticated={isAuthenticated}>
+                <RoleGuard currentRole={role} role="admin">
+                  <UserForm />
+                </RoleGuard>
+              </AuthGuard>
+            }
+          />
+
           <Route
             path="/projects"
             element={

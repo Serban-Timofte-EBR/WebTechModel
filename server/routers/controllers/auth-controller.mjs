@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 
 const login = async (req, res, next) => {
   try {
-    // cauta userul in bd
     const user = await models.User.findOne({
       where: {
         email: req.body.email,
@@ -22,7 +21,7 @@ const login = async (req, res, next) => {
 
         console.log(user);
 
-        await user.save(); // update -> token
+        await user.save();
 
         res
           .status(200)
