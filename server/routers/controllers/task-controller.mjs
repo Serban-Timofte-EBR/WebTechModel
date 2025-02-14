@@ -1,12 +1,23 @@
 import models from "../../models/index.mjs";
+import { Op } from "sequelize";
 
 const getAllTasksForProject = async (req, res, next) => {
   try {
-    const query = {
-      where: {
-        projectId: req.params.pid,
-      },
-    };
+    const query = {};
+    const filterQuery = {};
+
+    if (req.query.filterField && req.query.filterValue) {
+      query.where = {
+        [req.query.filterField]: {
+          [Op.like]: `%${req.query.filterValue}%`,
+        },
+      };
+      filterQuery.where = {
+        [req.query.filterField]: {
+          [Op.like]: `%${req.query.filterValue}%`,
+        },
+      };
+    }
 
     if (req.query.pageSize && req.query.pageNumber) {
       query.limit = req.query.pageSize;
@@ -14,11 +25,10 @@ const getAllTasksForProject = async (req, res, next) => {
         parseInt(req.query.pageSize) * parseInt(req.query.pageNumber);
     }
 
-    const filterQuery = {
-      where: {
-        projectId: req.params.pid,
-      },
-    };
+    if (req.query.sortField && req.query.sortOrder) {
+      query.order = [[req.query.sortField, req.query.sortOrder]];
+    }
+
     const count = await models.Task.count({
       ...filterQuery,
       include: {

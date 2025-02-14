@@ -9,10 +9,19 @@ class TaskStore {
     this.emitter = new EventEmitter();
   }
 
-  async getAll(state, projectId, pageNumber = 0, pageSize = 10) {
+  async getAll(
+    state,
+    projectId,
+    pageNumber = 0,
+    pageSize = 10,
+    filterField = "",
+    filterValue = "",
+    sortField = "",
+    sortOrder = ""
+  ) {
     try {
       const response = await fetch(
-        `${SERVER}/api/users/${state.user.data.id}/projects/${projectId}/tasks?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+        `${SERVER}/api/users/${state.user.data.id}/projects/${projectId}/tasks?pageNumber=${pageNumber}&pageSize=${pageSize}&filterField=${filterField}&filterValue=${filterValue}&sortField=${sortField}&sortOrder=${sortOrder}`,
         {
           headers: {
             authorization: state.user.data.token,
