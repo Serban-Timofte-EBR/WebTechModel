@@ -41,6 +41,7 @@ Comment.belongsTo(User, { foreignKey: "userId" });
 try {
   await sequelize.sync({
     // force: true,
+    // alter: true,
   });
 } catch (err) {
   console.warn(err);
