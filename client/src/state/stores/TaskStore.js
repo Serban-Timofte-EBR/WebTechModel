@@ -181,7 +181,7 @@ class TaskStore {
         throw response;
       }
       const content = await response.json();
-      this.selectedTask.comments = content;
+      this.selectedTask.comments = content || [];
       this.emitter.emit("GET_COMMENTS_SUCCESS");
     } catch (err) {
       console.warn(err);

@@ -70,6 +70,17 @@ apiRouter.post(
   controllers.comment.createTaskComment
 );
 
+apiRouter.put(
+  "/users/:uid/projects/:pid/tasks/:tid/comments/:cid",
+  middleware.commentTaskMiddleware("pid", ["write"]),
+  controllers.comment.updateComment
+);
+apiRouter.delete(
+  "/users/:uid/projects/:pid/tasks/:tid/comments/:cid",
+  middleware.commentTaskMiddleware("pid", ["write"]),
+  controllers.comment.deleteComment
+);
+
 // get user profile
 apiRouter.get("/users/:uid/profile", controllers.user.getUserProfile);
 

@@ -13,7 +13,7 @@ const getAllTaskComments = async (req, res, next) => {
           required: true,
         },
       ],
-      order: [["createdAt", "ASC"]],
+      order: [["createdAt", "DESC"]],
     });
     res.status(200).json(taskComments);
   } catch (err) {
@@ -34,7 +34,54 @@ const createTaskComment = async (req, res, next) => {
   }
 };
 
+// UPDATE - doar ownerul poate modifica comentariul
+const updateComment = async (req, res, next) => {
+  try {
+    const comment = await models.Comment.findOne({
+      where: {
+        id: req.params.cid,
+        userId: req.params.uid,
+      },
+    });
+
+    if (!comment) {
+      return res
+        .status(404)
+        .json({ message: "Comment not found or unauthorized" });
+    }
+
+    await comment.update({ content: req.body.content });
+    res.status(200).json(comment);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// DELETE - doar ownerul poate sterge comentariul
+const deleteComment = async (req, res, next) => {
+  try {
+    const comment = await models.Comment.findOne({
+      where: {
+        id: req.params.cid,
+        userId: req.params.uid, // User can only delete their own comments
+      },
+    });
+
+    if (!comment) {
+      return res
+        .status(404)
+        .json({ message: "Comment not found or unauthorized" });
+    }
+
+    await comment.destroy();
+    res.status(204).end();
+  } catch (err) {
+    next(err);
+  }
+};
 export default {
   getAllTaskComments,
   createTaskComment,
+  deleteComment,
+  updateComment,
 };
